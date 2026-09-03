@@ -1,0 +1,62 @@
+{
+  "overall_status": "DEMO",
+  "rows": [
+    {
+      "parameter": "Operating frequency",
+      "requirement": "3.035 GHz (source)",
+      "hfss_result": "3.035 GHz (setup)",
+      "margin": "",
+      "status": "SOURCE",
+      "notes": "This is the SOURCE_SPECIFICATION operating point, not an HFSS-extracted resonance.",
+      "value": 3.035
+    },
+    {
+      "parameter": "S11 at 3.035 GHz",
+      "requirement": "<= -15.0 dB (preferred -25.0 to -15.0 dB)",
+      "hfss_result": "-19.92 dB",
+      "margin": "4.924 dB vs -15 dB",
+      "status": "DEMO PASS",
+      "notes": "DEMONSTRATION_EXAMPLE (modified-parameter ready-made set)",
+      "value": -19.92351068881541
+    },
+    {
+      "parameter": "VSWR at 3.035 GHz",
+      "requirement": "1.1:1 to 1.4:1",
+      "hfss_result": "1.224:1",
+      "margin": "distance to band 0.1244",
+      "status": "DEMO PASS",
+      "notes": "DEMONSTRATION_EXAMPLE (modified-parameter ready-made set). Target is a band, not a single number.",
+      "value": 1.2244178151966643
+    },
+    {
+      "parameter": "Directivity",
+      "requirement": "10.0 to 14.5 dBi",
+      "hfss_result": "13.74 dBi",
+      "margin": "3.74 dB above min",
+      "status": "DEMO PASS",
+      "notes": "DEMONSTRATION_EXAMPLE (modified-parameter ready-made set). Compare main-beam directivity, not an arbitrary cut.",
+      "value": 13.739605369938186
+    },
+    {
+      "parameter": "Gain",
+      "requirement": "9.5 to 14.0 dB",
+      "hfss_result": "13.28 dB",
+      "margin": "3.782 dB above min",
+      "status": "DEMO PASS",
+      "notes": "DEMONSTRATION_EXAMPLE (modified-parameter ready-made set)",
+      "value": 13.282030464331434
+    },
+    {
+      "parameter": "Axial ratio (main beam)",
+      "requirement": "< 1.5 dB",
+      "hfss_result": "1.339 dB",
+      "margin": "0.161 dB below 1.5 dB",
+      "status": "DEMO PASS",
+      "notes": "DEMONSTRATION_EXAMPLE (modified-parameter ready-made set). Main-beam direction (\u03b8=0\u00b0, \u03c6=0\u00b0).",
+      "value": 1.339003644608063
+    }
+  ],
+  "solved": false,
+  "demonstration": true,
+  "rule": "DEMO uses the existing modified-parameter ready-made dataset; it is not an HFSS solve. PASS is reserved for actual HFSS results that meet the requirement."
+}

@@ -1,0 +1,40 @@
+{
+  "source_document_defines_materials": false,
+  "pec_is_source_requirement": false,
+  "wavelength_mm_at_3035_MHz": 98.77840461285008,
+  "objects": {
+    "HelixWire": {
+      "material": "copper",
+      "solve_inside": false,
+      "provenance": "ENGINEERING_ASSUMPTION",
+      "notes": "18 AWG copper is the usual physical interpretation of the source wire gauge, but the document does not name the metal."
+    },
+    "GroundPlane": {
+      "material": "copper",
+      "solve_inside": false,
+      "provenance": "ENGINEERING_ASSUMPTION"
+    },
+    "FeedPost": {
+      "material": "copper",
+      "solve_inside": false,
+      "provenance": "ENGINEERING_ASSUMPTION"
+    },
+    "RadBox": {
+      "material": "vacuum",
+      "solve_inside": true,
+      "provenance": "ENGINEERING_ASSUMPTION"
+    },
+    "PortSheet": {
+      "material": "vacuum",
+      "solve_inside": true,
+      "notes": "Sheet used only as a port assignment; not a bulk dielectric."
+    }
+  },
+  "copper_conductivity_S_per_m": 58000000.0,
+  "if_pec_used": {
+    "meaning": "Perfect electric conductor. Zero loss. Gain equals directivity in a lossless model.",
+    "used_in_this_project": false,
+    "not_a_source_requirement": true
+  },
+  "operating_frequency_GHz": 3.035
+}

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture</title>
+<link rel="stylesheet" href="css/style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.mermaid) {
+    mermaid.initialize({ startOnLoad: true, theme: "dark", securityLevel: "loose" });
+  }
+});
+</script>
+
+</head><body>
+<header>
+  <h1>3.035 GHz Helical Antenna HFSS Automation</h1>
+  <div class="sub">Embedded AI Design Labs Pvt Ltd · Author: Muhammad Samiullah · info@embedailabs.com · 9611748385 · <a href="https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd">https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a></div>
+</header>
+<nav><a class="" href="index.html">Dashboard</a><a class="" href="design.html">Design</a><a class="" href="implementation.html">Implementation</a><a class="active" href="architecture.html">Architecture</a><a class="" href="geometry.html">Geometry</a><a class="" href="simulation.html">Simulation</a><a class="" href="s11.html">S11</a><a class="" href="vswr.html">VSWR</a><a class="" href="gain.html">Gain</a><a class="" href="directivity.html">Directivity</a><a class="" href="axial_ratio.html">Axial Ratio</a><a class="" href="far_field.html">Radiation</a><a class="" href="feed_and_port.html">Feed/Port</a><a class="" href="HFSS_GUI_STEP_BY_STEP.html">HFSS GUI</a><a class="" href="validation.html">Validation</a></nav>
+<main>
+
+<h2>System Architecture — Block, Data Flow and Control Flow</h2>
+<p class="note">These diagrams describe the software system that implements the 3.035 GHz helix in HFSS.
+They are not electromagnetic field plots.</p>
+
+<div class="toc card">
+<strong>On this page:</strong>
+<a href="#block">System block diagram</a>
+<a href="#data">Data flow</a>
+<a href="#control">Control flow</a>
+<a href="#stores">Store architecture</a>
+<a href="#trust">Trust boundary</a>
+</div>
+
+<h3 id="block">1. System block diagram</h3>
+<p>The operator never edits source helix dimensions in the GUI. Automation reads locked constants, builds CAD and HFSS
+objects, then publishes either demonstration or live results into HTML.</p>
+<div class="diagram"><pre class="mermaid">
+flowchart TB
+  subgraph Actor["Operator"]
+    USER["Desktop GUI — gui/app.py"]
+  end
+
+  subgraph App["Python automation — helical_antenna_hfss"]
+    WF["workflow.py integration agent"]
+    GEO["geometry_generator"]
+    CFG["materials / port / radiation / hfss_setup"]
+    SIM["simulation_runner + IronPython builder"]
+    EXT["result_extractor"]
+    DEM["demo_dataset"]
+    STO["results_store"]
+    VAL["validation"]
+    RPT["report_generator"]
+  end
+
+  subgraph Ansys["Ansys Electronics Desktop"]
+    AEDT["Project Helix_3035MHz"]
+    SOL["HFSS Setup1 + Sweep + Infinite Sphere1"]
+  end
+
+  subgraph Out["Published artifacts"]
+    HTML["docs/*.html dashboard and design pages"]
+    JSON["results/demo and results/live"]
+    PLT["results/plots"]
+  end
+
+  USER --> WF
+  WF --> GEO
+  WF --> CFG
+  WF --> SIM
+  SIM --> AEDT
+  AEDT --> SOL
+  SOL --> EXT
+  WF --> DEM
+  EXT --> STO
+  DEM --> STO
+  STO --> VAL
+  VAL --> RPT
+  RPT --> HTML
+  STO --> JSON
+  RPT --> PLT
+</pre></div>
+<p class="diagram-caption">Figure 2 — System block diagram. Ansys is optional at runtime; HTML and geometry still generate offline.</p>
+
+<h3>Component responsibilities</h3>
+<table>
+<thead><tr><th>Block</th><th>Inputs</th><th>Outputs</th><th>Failure behaviour</th></tr></thead>
+<tbody>
+<tr><td>GUI</td><td>Button clicks, optional Solve checkbox</td><td>Calls <code>run_all(mode=...)</code></td><td>Errors shown in the log pane; UI thread not blocked</td></tr>
+<tr><td>workflow.py</td><td>mode demo|live, open_hfss, solve</td><td>Phase log, published store, HTML</td><td>Failed phase recorded; later phases still attempt reports</td></tr>
+<tr><td>geometry_generator</td><td>SOURCE, ASSUMPTIONS.feed_gap</td><td>Polyline, validation HTML/JSON</td><td>Mismatches reported; source R/P/N not auto-changed</td></tr>
+<tr><td>simulation_runner</td><td>Generated JSON + IronPython</td><td>Open AEDT model; optional solve</td><td>If ansysedt missing, script is still written</td></tr>
+<tr><td>result_extractor</td><td>Solved project or none</td><td>Live JSON or NOT SIMULATED</td><td>Never fills metrics from theory</td></tr>
+<tr><td>demo_dataset</td><td>examples/ready_made</td><td>Tagged demonstration payload</td><td>Missing files raise a clear error</td></tr>
+<tr><td>report_generator</td><td>Active results + matrix</td><td>docs/ HTML including these pages</td><td>Pages still render with NOT SIMULATED badges</td></tr>
+</tbody>
+</table>
+
+<h3 id="data">2. Data-flow diagram</h3>
+<p>Data moves left to right from the locked specification to either the demonstration archive or a live HFSS extract.
+The two stores never write into each other.</p>
+<div class="diagram"><pre class="mermaid">
+flowchart LR
+  subgraph Spec["Specification data"]
+    DOCX["Source Word document"]
+    SRC["common.SOURCE and TARGETS"]
+    ASM["common.ASSUMPTIONS"]
+  end
+
+  subgraph Build["Build data"]
+    GJSON["geometry_parameters.json"]
+    IPY["build_helix_hfss.py"]
+    MDL["AEDT 3D model"]
+  end
+
+  subgraph Results["Result data"]
+    READY["examples/ready_made CSV/JSON"]
+    DEMO["results/demo"]
+    LIVE["results/live"]
+    ACT["results/hfss_results.json"]
+    MTX["acceptance_matrix.json"]
+  end
+
+  subgraph Views["Views"]
+    GUI["GUI comparison table"]
+    DASH["HTML dashboard"]
+    RPT["Engineering report"]
+  end
+
+  DOCX --> SRC
+  SRC --> GJSON
+  ASM --> GJSON
+  GJSON --> IPY
+  IPY --> MDL
+  MDL -->|"solved S / far-field"| LIVE
+  MDL -->|"unsolved"| LIVE
+  READY --> DEMO
+  DEMO --> ACT
+  LIVE --> ACT
+  ACT --> MTX
+  ACT --> GUI
+  ACT --> DASH
+  MTX --> DASH
+  MTX --> RPT
+</pre></div>
+<p class="diagram-caption">Figure 3 — Data flow. Live metrics originate only from Ansys; demo metrics originate only from ready-made files.</p>
+
+<h3>Principal data artifacts</h3>
+<table>
+<thead><tr><th>Artifact</th><th>Produced by</th><th>Consumed by</th></tr></thead>
+<tbody>
+<tr><td><code>scripts/common.py</code> SOURCE dict</td><td>Manual transcription from the Word document</td><td>All generators</td></tr>
+<tr><td><code>hfss/geometry/*.json</code></td><td>geometry_generator</td><td>IronPython builder, geometry HTML</td></tr>
+<tr><td><code>hfss/project/build_helix_hfss.py</code></td><td>simulation_runner</td><td>AEDT Tools → Run Script</td></tr>
+<tr><td><code>examples/ready_made/helix_example_results.json</code></td><td>Prior modified-antenna example (not this PC’s Ansys)</td><td>demo_dataset</td></tr>
+<tr><td><code>results/demo/*.json</code></td><td>demo publish</td><td>GUI Show Demo, dashboard</td></tr>
+<tr><td><code>results/live/*.json</code></td><td>live extract or placeholder</td><td>GUI Show Live, dashboard</td></tr>
+<tr><td><code>results/plots/*.png</code></td><td>plot_generator</td><td>HTML img tags</td></tr>
+<tr><td><code>docs/*.html</code></td><td>report_generator</td><td>Browser / GUI Dashboard</td></tr>
+</tbody>
+</table>
+
+<h3 id="control">3. Control-flow diagram</h3>
+<p>Control starts at <code>RUN.bat</code>, which starts the GUI (and may pre-run a CLI workflow). Every subsequent branch
+is an explicit operator choice or a detected environment condition (Ansys present or not, Solve checked or not).</p>
+<div class="diagram"><pre class="mermaid">
+flowchart TD
+  START["RUN.bat / python run_gui.py"] --> GUI["HelixGUI main window"]
+  GUI --> WAIT["Wait for operator"]
+  WAIT --> A{"Which button?"}
+
+  A -->|"DEMONSTRATE"| D1["mode = demo"]
+  D1 --> D2["Generate geometry and setup JSON"]
+  D2 --> D3["Skip AEDT launch"]
+  D3 --> D4["Load ready-made demonstration"]
+  D4 --> D5["Publish results/demo — do not touch live"]
+  D5 --> D6["Validate as DEMO not PASS"]
+  D6 --> PUB["Plots + HTML + open dashboard"]
+
+  A -->|"TEST IN HFSS"| L1["mode = live"]
+  L1 --> L2["Generate geometry and setup JSON"]
+  L2 --> L3{"ansysedt found?"}
+  L3 -->|No| L4["Write IronPython only"]
+  L4 --> L5["Live payload NOT SIMULATED"]
+  L3 -->|Yes| L6["Open AEDT and build model"]
+  L6 --> L7{"Solve checkbox?"}
+  L7 -->|No| L5
+  L7 -->|Yes| L8["Analyze Setup1 and Sweep"]
+  L8 --> L9{"Solution exists?"}
+  L9 -->|Yes| L10["Extract S11 VSWR gain AR"]
+  L9 -->|No| L5
+  L10 --> L11["Publish results/live — do not touch demo"]
+  L5 --> L11
+  L11 --> L12["Validate: PASS only if HFSS_SIMULATED"]
+  L12 --> PUB
+
+  A -->|"Show Demo / Show Live"| S1["Copy chosen store to active JSON"]
+  S1 --> S2["Refresh GUI table"]
+
+  A -->|"Dashboard / Report"| B1["webbrowser.open HTML"]
+
+  PUB --> WAIT
+  S2 --> WAIT
+  B1 --> WAIT
+</pre></div>
+<p class="diagram-caption">Figure 4 — Control flow. Demo and live paths share geometry generation but never share result writers.</p>
+
+<h3 id="stores">4. Result-store architecture</h3>
+<div class="diagram"><pre class="mermaid">
+flowchart TB
+  subgraph Isolated["Isolated stores"]
+    DEMO["results/demo/hfss_results.json"]
+    LIVE["results/live/hfss_results.json"]
+  end
+  FLAG["results/active_source.json  demo or live"]
+  WORK["results/hfss_results.json  working copy"]
+  HTML["docs/index.html embedded payload"]
+  DEMO -->|"Show Demo or Demonstrate"| FLAG
+  LIVE -->|"Show Live or Test in HFSS"| FLAG
+  FLAG --> WORK
+  WORK --> HTML
+</pre></div>
+<p class="diagram-caption">Figure 5 — Active-source pointer selects which isolated store the dashboard embeds.</p>
+
+<h3 id="trust">5. Trust boundary</h3>
+<ul>
+<li><strong>Trusted specification:</strong> Word document → <code>SOURCE</code> / <code>TARGETS</code> (human-transcribed, unit-tested).</li>
+<li><strong>Trusted simulation:</strong> only values extracted from a solved HFSS project.</li>
+<li><strong>Untrusted as HFSS:</strong> ready-made example, theoretical Kraus estimates, empty plots, mesh tables labeled DEMO.</li>
+<li><strong>Offline completeness:</strong> missing Ansys is a valid state. The system still emits geometry, scripts, HTML and NOT SIMULATED metrics.</li>
+</ul>
+<p>Company: Embedded AI Design Labs Pvt Ltd. Repositories: <a href="https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd">https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a>.</p>
+
+</main>
+<footer class='site-footer'><div><strong>Embedded AI Design Labs Pvt Ltd</strong></div><div>Author: Muhammad Samiullah &nbsp;·&nbsp; <a href='mailto:info@embedailabs.com'>info@embedailabs.com</a> &nbsp;·&nbsp; <a href='tel:9611748385'>9611748385</a></div><div><a href='https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd'>https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a> &nbsp;·&nbsp; <a href='https://www.embedailabs.com'>https://www.embedailabs.com</a></div><div>© 2026 Embedded AI Design Labs Pvt Ltd. All rights reserved.</div><div class='footer-note'>Numerical HFSS values are shown only when extracted from a solved project. Otherwise status is NOT SIMULATED.</div></footer>
+</body></html>

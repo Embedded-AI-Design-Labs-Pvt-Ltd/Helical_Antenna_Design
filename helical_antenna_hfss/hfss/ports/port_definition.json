@@ -1,0 +1,92 @@
+{
+  "provenance": "ENGINEERING_ASSUMPTION",
+  "source_document_defines_feed": false,
+  "missing_from_source": [
+    "coax inner/outer conductor radii",
+    "coax dielectric material and permittivity",
+    "connector type (SMA, N, custom)",
+    "feed probe diameter independent of helix wire",
+    "reference impedance",
+    "port sheet dimensions",
+    "integration-line start and end",
+    "feed gap between helix start and ground plane",
+    "ground-plane thickness and via/clearance hole"
+  ],
+  "first_pass_excitation": {
+    "type": "lumped_port",
+    "name": "P1",
+    "impedance_ohm": 50.0,
+    "renormalize": true,
+    "feed_gap_mm": 1.5,
+    "port_sheet": {
+      "name": "PortSheet",
+      "plane": "XZ (Y=0)",
+      "origin_mm": [
+        20.428,
+        0.0,
+        0.0
+      ],
+      "width_mm": 1.024,
+      "height_mm": 1.5,
+      "description": "Rectangle spanning the gap between the ground-plane top (z=0) and the helix start (z=feed_gap) at the helix radius."
+    },
+    "integration_line": {
+      "start_mm": [
+        20.94,
+        0.0,
+        0.0
+      ],
+      "end_mm": [
+        20.94,
+        0.0,
+        1.5
+      ],
+      "direction": "+z from ground to helix start",
+      "notes": "Positive voltage is helix relative to ground."
+    },
+    "feed_post": {
+      "name": "FeedPost",
+      "radius_mm": 0.512,
+      "axis": "z",
+      "origin_mm": [
+        20.94,
+        0.0,
+        0.0
+      ],
+      "height_mm": 1.5,
+      "purpose": "Vertical conductor in the gap so the helix is galvanically connected to the port sheet. The post does not penetrate the ground; the lumped port provides the excitation across the gap."
+    },
+    "orientation": "Port sheet normal is +Y. Integration line is +Z."
+  },
+  "how_to_replace_with_coax": {
+    "when": "Physical connector drawings or measured coax dimensions become available.",
+    "steps": [
+      "Delete lumped port P1 and PortSheet.",
+      "Create coaxial inner conductor, dielectric, and outer shield using the measured radii.",
+      "Subtract dielectric from shield and inner from dielectric.",
+      "Cut a clearance hole in the ground plane for the shield.",
+      "Assign a wave port or lumped port on the coaxial cross-section at the connector end.",
+      "Set the integration line from inner to outer conductor.",
+      "Re-solve. S11/VSWR will change; far-field shape usually less so."
+    ]
+  },
+  "validation_checks": [
+    "Port sheet touches both the ground plane (or is adjacent to z=0) and the helix/feed-post conductor.",
+    "Port sheet is a 2D sheet, not a solid.",
+    "Integration line lies on the port sheet.",
+    "Port impedance is 50 ohm.",
+    "Port is inside the radiation box.",
+    "No unintended short between helix and ground except through the port."
+  ],
+  "airbox_contains_port": true,
+  "airbox_mm": {
+    "xmin_mm": -105.67920230642504,
+    "ymin_mm": -105.67920230642504,
+    "zmin_mm": -50.38920230642504,
+    "xsize_mm": 211.35840461285008,
+    "ysize_mm": 211.35840461285008,
+    "zsize_mm": 189.09840461285006,
+    "padding_mm": 49.38920230642504,
+    "zmax_mm": 138.70920230642503
+  }
+}

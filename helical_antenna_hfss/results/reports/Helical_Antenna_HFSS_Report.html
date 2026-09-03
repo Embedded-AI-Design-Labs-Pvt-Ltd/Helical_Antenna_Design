@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Helical Antenna HFSS Report</title>
+<link rel="stylesheet" href="../docs/css/style.css">
+</head><body>
+<header><h1>Helical Antenna HFSS Engineering Report</h1>
+<div class="sub">Embedded AI Design Labs Pvt Ltd · Author: Muhammad Samiullah · info@embedailabs.com · 9611748385 · 2026-09-03T02:58:39Z · Status: DEMO</div></header>
+<main>
+<div class="card"><h2>1. Executive Summary</h2>
+<p>A 3-turn axial-mode helical antenna at 3.035 GHz was modeled from Helical Antenna_Modified_Parameter (1)(1).docx.
+HFSS numerical results are <strong>DEMO</strong>. No fabricated S11, VSWR, gain, directivity or axial-ratio numbers are reported.</p></div>
+<div class="card"><h2>2. Design Objective</h2>
+<p>Build a repeatable HFSS workflow for the source helix, with GUI automation, result extraction and acceptance testing.</p></div>
+<div class="card"><h2>3. Source Specification</h2>
+<table>
+<tr><td>Frequency</td><td>3.035 GHz</td></tr>
+<tr><td>Turns</td><td>3.0</td></tr>
+<tr><td>Radius</td><td>20.94 mm</td></tr>
+<tr><td>Pitch</td><td>29.27 mm</td></tr>
+<tr><td>Wire</td><td>18 AWG, Ø 1.024 mm</td></tr>
+<tr><td>Ground radius / diameter</td><td>56.29 / 112.59 mm</td></tr>
+<tr><td>Axial length (source)</td><td>87.82 mm</td></tr>
+</table></div>
+<div class="card"><h2>4–5. Geometry and Validation</h2>
+<p>C/turn calculated 131.5699 mm vs source 131.58 mm.
+Pitch angle 12.5422° vs 12.54°. N·P = 87.8100 mm vs source 87.82 mm (0.01 mm rounding).</p>
+<p><img src="../results/plots/geometry_3d.png" alt="geometry"></p>
+</div>
+<div class="card"><h2>6–9. Materials, Feed, Port, Boundaries</h2>
+<p>Copper helix and ground (assumption). 50 Ω lumped port across a 1.5 mm gap (assumption). Radiation box padding 0.5 λ0 = 49.389 mm (assumption). λ0 = 98.7784 mm (calculated).</p></div>
+<div class="card"><h2>10–12. Mesh, Solver, Sweep</h2>
+<p>Project Helix_3035MHz, design Helix_3035MHz, Setup1 at 3.035 GHz, MaxPasses 15, MaxDeltaS 0.02, interpolating sweep 2.5–4.0 GHz. Mesh convergence is NOT SIMULATED.</p></div>
+<div class="card"><h2>13–18. Electromagnetic Results</h2>
+<p>All plots below are empty/watermarked until HFSS solves.</p>
+<p><img src="../results/plots/S11.png" alt="s11"></p>
+<p><img src="../results/plots/VSWR.png" alt="vswr"></p>
+<p><img src="../results/plots/Gain_Pattern.png" alt="gain"></p>
+<p><img src="../results/plots/Directivity_Pattern.png" alt="dir"></p>
+<p><img src="../results/plots/Axial_Ratio.png" alt="ar"></p>
+<p><img src="../results/plots/3D_Radiation_Pattern.png" alt="3d"></p>
+</div>
+<div class="card"><h2>19–20. Requirement Comparison / PASS-FAIL</h2>
+<table><thead><tr><th>Parameter</th><th>Requirement</th><th>HFSS Result</th><th>Status</th><th>Notes</th></tr></thead>
+<tbody><tr><td>Operating frequency</td><td>3.035 GHz (source)</td><td>3.035 GHz (setup)</td><td>SOURCE</td><td>This is the SOURCE_SPECIFICATION operating point, not an HFSS-extracted resonance.</td></tr><tr><td>S11 at 3.035 GHz</td><td><= -15.0 dB (preferred -25.0 to -15.0 dB)</td><td>-19.92 dB</td><td>DEMO PASS</td><td>DEMONSTRATION_EXAMPLE (modified-parameter ready-made set)</td></tr><tr><td>VSWR at 3.035 GHz</td><td>1.1:1 to 1.4:1</td><td>1.224:1</td><td>DEMO PASS</td><td>DEMONSTRATION_EXAMPLE (modified-parameter ready-made set). Target is a band, not a single number.</td></tr><tr><td>Directivity</td><td>10.0 to 14.5 dBi</td><td>13.74 dBi</td><td>DEMO PASS</td><td>DEMONSTRATION_EXAMPLE (modified-parameter ready-made set). Compare main-beam directivity, not an arbitrary cut.</td></tr><tr><td>Gain</td><td>9.5 to 14.0 dB</td><td>13.28 dB</td><td>DEMO PASS</td><td>DEMONSTRATION_EXAMPLE (modified-parameter ready-made set)</td></tr><tr><td>Axial ratio (main beam)</td><td>< 1.5 dB</td><td>1.339 dB</td><td>DEMO PASS</td><td>DEMONSTRATION_EXAMPLE (modified-parameter ready-made set). Main-beam direction (θ=0°, φ=0°).</td></tr></tbody></table>
+<p>Overall: <strong>DEMO</strong></p></div>
+<div class="card"><h2>21. Engineering Assumptions</h2>
+<p>See ENGINEERING_ASSUMPTIONS.md. Feed, materials, air box and solver controls are not source requirements.</p></div>
+<div class="card"><h2>22. Limitations</h2>
+<ul>
+<li>No physical coax/connector in the first-pass model.</li>
+<li>Copper conductivity and ground thickness assumed.</li>
+<li>Radiation boundary (not PML) as first pass.</li>
+<li>Without a solved HFSS project, RF metrics cannot be accepted.</li>
+</ul></div>
+<div class="card"><h2>23. Recommended Next Steps</h2>
+<ol>
+<li>Install/license Ansys Electronics Desktop.</li>
+<li>Press RUN in the GUI (or Tools > Run Script on hfss/project/build_helix_hfss.py).</li>
+<li>Inspect geometry, materials, port and radiation box.</li>
+<li>Analyze Setup1 and export results.</li>
+<li>Re-run extraction so this report fills with HFSS_SIMULATED values.</li>
+<li>If S11 is poor, replace the lumped gap with the real coax feed rather than changing source helix dimensions.</li>
+</ol></div>
+</main>
+<footer class='site-footer'><div><strong>Embedded AI Design Labs Pvt Ltd</strong></div><div>Author: Muhammad Samiullah &nbsp;·&nbsp; <a href='mailto:info@embedailabs.com'>info@embedailabs.com</a> &nbsp;·&nbsp; <a href='tel:9611748385'>9611748385</a></div><div><a href='https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd'>https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a> &nbsp;·&nbsp; <a href='https://www.embedailabs.com'>https://www.embedailabs.com</a></div><div>© 2026 Embedded AI Design Labs Pvt Ltd. All rights reserved.</div></footer>
+</body></html>

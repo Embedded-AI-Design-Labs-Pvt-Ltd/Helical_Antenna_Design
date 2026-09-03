@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design</title>
+<link rel="stylesheet" href="css/style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.mermaid) {
+    mermaid.initialize({ startOnLoad: true, theme: "dark", securityLevel: "loose" });
+  }
+});
+</script>
+
+</head><body>
+<header>
+  <h1>3.035 GHz Helical Antenna HFSS Automation</h1>
+  <div class="sub">Embedded AI Design Labs Pvt Ltd · Author: Muhammad Samiullah · info@embedailabs.com · 9611748385 · <a href="https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd">https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a></div>
+</header>
+<nav><a class="" href="index.html">Dashboard</a><a class="active" href="design.html">Design</a><a class="" href="implementation.html">Implementation</a><a class="" href="architecture.html">Architecture</a><a class="" href="geometry.html">Geometry</a><a class="" href="simulation.html">Simulation</a><a class="" href="s11.html">S11</a><a class="" href="vswr.html">VSWR</a><a class="" href="gain.html">Gain</a><a class="" href="directivity.html">Directivity</a><a class="" href="axial_ratio.html">Axial Ratio</a><a class="" href="far_field.html">Radiation</a><a class="" href="feed_and_port.html">Feed/Port</a><a class="" href="HFSS_GUI_STEP_BY_STEP.html">HFSS GUI</a><a class="" href="validation.html">Validation</a></nav>
+<main>
+
+<h2>Antenna Design — Detailed Explanation</h2>
+<p class="note">This page explains <strong>what</strong> is being designed and <strong>why</strong> each number exists.
+Source geometry is locked from <code>Helical Antenna_Modified_Parameter (1)(1).docx</code>. Feed, materials, air box and solver settings are
+engineering assumptions, not source requirements.</p>
+
+<div class="toc card">
+<strong>On this page:</strong>
+<a href="#purpose">Purpose</a>
+<a href="#theory">Axial-mode helix</a>
+<a href="#source">Source specification</a>
+<a href="#calc">Calculated geometry</a>
+<a href="#targets">RF targets</a>
+<a href="#stack">Physical stack</a>
+<a href="#assumptions">Assumptions</a>
+<a href="#solver">Solver design</a>
+<a href="#provenance">Provenance</a>
+</div>
+
+<h3 id="purpose">1. Purpose</h3>
+<p>Embedded AI Design Labs Pvt Ltd built a repeatable Ansys HFSS workflow for a 3-turn axial-mode helical antenna at
+<strong>3.035 GHz</strong>. The product is not only the CAD model: it is a
+one-click GUI, an IronPython/PyAEDT builder, dual result stores (demonstration vs live HFSS), validation
+against the requirement matrix, and an HTML dashboard that never presents theoretical numbers as solved HFSS data.</p>
+<p>Public repositories: <a href="https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd">https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a> ·
+Website: <a href="https://www.embedailabs.com">https://www.embedailabs.com</a></p>
+
+<h3 id="theory">2. Axial-mode helical antenna (design basis)</h3>
+<p>A helix radiates in the <em>axial mode</em> when the circumference of one turn is on the order of one free-space
+wavelength and the pitch angle is modest (typically about 12°–14°). In that regime the antenna produces a
+circularly polarized beam along the helix axis (Kraus). This design uses:</p>
+<ul>
+<li>Circumference per turn C = 2πR ≈ 131.58 mm</li>
+<li>Free-space wavelength λ<sub>0</sub> = c / f<sub>0</sub> = 98.7784 mm at 3.035 GHz</li>
+<li>C / λ<sub>0</sub> ≈ 1.332 (near 1.33, axial-mode band)</li>
+<li>Pitch angle α = arctan(P / C) ≈ 12.54°</li>
+<li>Number of turns N = 3 (short helix; gain is modest compared with long helices)</li>
+</ul>
+<p>A circular ground plane under the helix acts as a reflector so the beam is predominantly in the +z (forward) direction.
+Right-hand winding is assumed (not stated in the source document); a right-hand helix produces RHCP in the forward axial beam
+under the usual Kraus convention.</p>
+
+<h3 id="source">3. Locked source specification</h3>
+<p>These values are transcribed from the source Word document. They are <strong>not</strong> optimized or rounded in code
+except where the document itself already rounded (N·P vs listed axial length).</p>
+<table>
+<thead><tr><th>Parameter</th><th>Symbol</th><th>Value</th><th>Provenance</th></tr></thead>
+<tbody>
+<tr><td>Operating frequency</td><td>f<sub>0</sub></td><td>3.035 GHz</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Number of turns</td><td>N</td><td>3</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Helix centerline radius</td><td>R</td><td>20.94 mm</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Pitch</td><td>P</td><td>29.27 mm</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Wire</td><td>—</td><td>18 AWG, Ø 1.024 mm (r = 0.512 mm)</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Ground plane radius / diameter</td><td>R<sub>g</sub> / D<sub>g</sub></td><td>56.29 / 112.59 mm</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Axial length (listed)</td><td>L</td><td>87.82 mm</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Circumference / turn</td><td>C</td><td>131.58 mm</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Slant length / turn</td><td>S</td><td>134.79 mm</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Pitch angle</td><td>α</td><td>12.54°</td><td>SOURCE_SPECIFICATION</td></tr>
+</tbody>
+</table>
+
+<h3 id="calc">4. Calculated geometry (must match source within rounding)</h3>
+<p>Parametric centerline (right-hand):</p>
+<pre>x = R · cos(2π t)
+y = R · sin(2π t)
+z = z<sub>0</sub> + P · t
+t ∈ [0, N]</pre>
+<p>z<sub>0</sub> is the feed gap (assumption). Closed-form checks:</p>
+<table>
+<thead><tr><th>Formula</th><th>Calculated</th><th>Source listed</th><th>Comment</th></tr></thead>
+<tbody>
+<tr><td>C = 2πR</td><td>131.5699 mm</td><td>131.58 mm</td><td>Match within 0.01 mm rounding</td></tr>
+<tr><td>S = √(C² + P²)</td><td>134.7864 mm</td><td>134.79 mm</td><td>Match</td></tr>
+<tr><td>α = arctan(P/C)</td><td>12.5422°</td><td>12.54°</td><td>Match</td></tr>
+<tr><td>L = N·P</td><td>87.8100 mm</td><td>87.82 mm</td><td>0.01 mm listing rounding; pitch is not changed</td></tr>
+<tr><td>λ<sub>0</sub> = c/f<sub>0</sub></td><td>98.7784 mm</td><td>—</td><td>CALCULATED (not in the Word table)</td></tr>
+</tbody>
+</table>
+
+<h3 id="targets">5. Electromagnetic acceptance targets</h3>
+<p>These are design goals for a solved HFSS model at 3.035 GHz. Demonstration numbers
+must never be used to mark PASS on a live Ansys run.</p>
+<table>
+<thead><tr><th>Metric</th><th>Requirement</th><th>Preferred band</th></tr></thead>
+<tbody>
+<tr><td>S11</td><td>≤ -15.0 dB</td><td>-25.0 to -15.0 dB</td></tr>
+<tr><td>VSWR</td><td>1.1 – 1.4</td><td>same</td></tr>
+<tr><td>Directivity</td><td>10.0 – 14.5 dBi</td><td>same</td></tr>
+<tr><td>Gain</td><td>9.5 – 14.0 dB</td><td>same</td></tr>
+<tr><td>Axial ratio</td><td>&lt; 1.5 dB in the main beam</td><td>on-axis / beam peak</td></tr>
+</tbody>
+</table>
+
+<h3 id="stack">6. Physical design stack</h3>
+<p>From −z to +z the model is: ground disk → lumped-port gap → 3-turn copper helix → vacuum radiation box.</p>
+<div class="diagram"><pre class="mermaid">
+flowchart TB
+  subgraph AirBox["Radiation box Rad1 — vacuum, 0.5 λ0 padding"]
+    Helix["HelixWire — 18 AWG copper tube along centerline"]
+    Feed["FeedPost + PortSheet P1 — 50 ohm lumped port"]
+    GND["GroundPlane — copper disk R = 56.29 mm"]
+  end
+  GND --> Feed
+  Feed --> Helix
+  Helix --> Beam["Forward axial beam +z — expected RHCP"]
+</pre></div>
+<p class="diagram-caption">Figure 1 — Physical design stack inside the HFSS radiation box (not a solved field plot).</p>
+
+<h3 id="assumptions">7. Engineering assumptions (explicitly not source)</h3>
+<table>
+<thead><tr><th>Item</th><th>Chosen value</th><th>Why it exists</th></tr></thead>
+<tbody>
+<tr><td>Winding</td><td>right_hand</td><td>Handedness not in the source document</td></tr>
+<tr><td>Conductor / ground</td><td>copper</td><td>Material not specified; copper is the default RF choice</td></tr>
+<tr><td>Ground thickness</td><td>1.0 mm</td><td>Source lists radius only</td></tr>
+<tr><td>Feed</td><td>lumped_port_50ohm, 50.0 Ω</td><td>No coax / connector drawing in the source</td></tr>
+<tr><td>Feed gap</td><td>1.5 mm</td><td>Needed to place a lumped port without shorting the helix to ground</td></tr>
+<tr><td>Radiation box</td><td>0.5 λ<sub>0</sub> padding (49.389 mm)</td><td>Standard first-pass open-region size; not a PML</td></tr>
+<tr><td>Setup1</td><td>3.035 GHz, MaxPasses 15, MaxDeltaS 0.02</td><td>Solver controls never appear in the Word document</td></tr>
+<tr><td>Sweep</td><td>2.5–4.0 GHz interpolating</td><td>Needed for S11/VSWR curves around f<sub>0</sub></td></tr>
+</tbody>
+</table>
+<p>If S11 is poor after a real solve, replace the lumped gap with the physical coaxial feed rather than changing R, P or N.</p>
+
+<h3 id="solver">8. HFSS solution design</h3>
+<ul>
+<li>Solution type: Driven Modal</li>
+<li>Adaptive frequency: exactly 3.035 GHz (Setup1)</li>
+<li>Sweep: interpolating 2.5–4.0 GHz so 3.035 GHz is interior, not an endpoint</li>
+<li>Far field: Infinite Sphere1 (θ, φ grid) for gain, directivity and axial ratio</li>
+<li>What Python cannot fake: adaptive mesh, ΔS convergence, S-parameters, radiated fields</li>
+</ul>
+
+<h3 id="provenance">9. Provenance policy</h3>
+<p>Every published number is tagged as one of: SOURCE_SPECIFICATION, CALCULATED, ENGINEERING_ASSUMPTION,
+HFSS_SIMULATED, DEMONSTRATION_EXAMPLE, or NOT_SIMULATED. Demonstration plots and the ready-made CSV are
+labeled DEMO. Live Ansys extraction is the only path that may write HFSS_SIMULATED values into
+<code>results/live/</code>.</p>
+
+</main>
+<footer class='site-footer'><div><strong>Embedded AI Design Labs Pvt Ltd</strong></div><div>Author: Muhammad Samiullah &nbsp;·&nbsp; <a href='mailto:info@embedailabs.com'>info@embedailabs.com</a> &nbsp;·&nbsp; <a href='tel:9611748385'>9611748385</a></div><div><a href='https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd'>https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a> &nbsp;·&nbsp; <a href='https://www.embedailabs.com'>https://www.embedailabs.com</a></div><div>© 2026 Embedded AI Design Labs Pvt Ltd. All rights reserved.</div><div class='footer-note'>Numerical HFSS values are shown only when extracted from a solved project. Otherwise status is NOT SIMULATED.</div></footer>
+</body></html>

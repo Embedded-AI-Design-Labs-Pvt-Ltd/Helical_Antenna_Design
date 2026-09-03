@@ -1,0 +1,31 @@
+{
+  "wavelength_mm": 98.77840461285008,
+  "frequency_GHz": 3.035,
+  "padding_wavelengths": 0.5,
+  "padding_mm": 49.38920230642504,
+  "padding_provenance": "ENGINEERING_ASSUMPTION (0.5 \u03bb0). Source document is silent.",
+  "boundary_type": "Radiation",
+  "boundary_name": "Rad1",
+  "object_name": "RadBox",
+  "material": "vacuum",
+  "airbox_mm": {
+    "xmin_mm": -105.67920230642504,
+    "ymin_mm": -105.67920230642504,
+    "zmin_mm": -50.38920230642504,
+    "xsize_mm": 211.35840461285008,
+    "ysize_mm": 211.35840461285008,
+    "zsize_mm": 189.09840461285006,
+    "padding_mm": 49.38920230642504,
+    "zmax_mm": 138.70920230642503
+  },
+  "rationale": "\u03bb0 = c/f = 299792458 / 3.035e9 = 98.778 mm. A half-wavelength margin around the antenna is a common first-pass HFSS radiation-box size. Closer boxes (\u03bb/4) are cheaper; PML can reduce reflections. Neither is specified by the source.",
+  "validation": {
+    "encloses_antenna": true,
+    "port_inside_region": true,
+    "helix_inside": true,
+    "ground_inside": true,
+    "unintended_overlaps": "Must be inspected in the HFSS GUI after the model is built.",
+    "disconnected_feed": "Feed post spans the assumed gap; inspect union/touch in HFSS."
+  },
+  "pml_not_used_initially": true
+}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Geometry Validation</title>
+<link rel="stylesheet" href="../docs/css/style.css">
+<style>
+body { font-family: Segoe UI, sans-serif; background:#0f1724; color:#e8eef6; margin:0; padding:24px; }
+table { border-collapse: collapse; width: 100%; background:#132033; }
+th, td { border: 1px solid #2b3c55; padding: 8px; text-align: left; }
+th { background:#1c2e45; }
+.note { background:#182433; padding:12px; border-left: 4px solid #3d7ab8; }
+.site-footer { margin-top:40px; padding:18px 24px; border-top:1px solid #2b3c55; color:#9fb3c8; font-size:13px; text-align:center; line-height:1.7; }
+.site-footer strong { color:#e8eef6; }
+</style></head><body>
+<h1>Geometry Validation Report</h1>
+<p>Source: Helical Antenna_Modified_Parameter (1)(1).docx. Generated dimensions are CALCULATED from the source helix equation. Source values are not modified.</p>
+<div class="note">N * pitch = 3 * 29.27 = 87.81 mm. Source lists 87.82 mm. Difference is 0.01 mm (rounding). Source pitch is not changed.</div>
+<p>Equation: x = R cos(2πt), y = R sin(2πt), z = z0 + P t, t ∈ [0, N]. z0 is the assumed feed gap (1.5 mm), not a source parameter.</p>
+<table>
+<thead><tr><th>Parameter</th><th>Source</th><th>Generated</th><th>Error</th><th>Tolerance</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>helix_centerline_radius_mm</td><td>20.94 mm</td><td>20.94 mm</td><td>+0</td><td>0.02</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr><tr><td>pitch_mm</td><td>29.27 mm</td><td>29.27 mm</td><td>+0</td><td>0.02</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr><tr><td>number_of_turns</td><td>3 turns</td><td>3 turns</td><td>+0</td><td>0.0</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr><tr><td>wire_diameter_mm</td><td>1.024 mm</td><td>1.024 mm</td><td>+0</td><td>0.0</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr><tr><td>ground_plane_radius_mm</td><td>56.29 mm</td><td>56.29 mm</td><td>+0</td><td>0.0</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr><tr><td>circumference_per_turn_mm</td><td>131.58 mm</td><td>131.57 mm</td><td>-0.0100997</td><td>0.02</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr><tr><td>slant_length_per_turn_mm</td><td>134.79 mm</td><td>134.786 mm</td><td>-0.00360761</td><td>0.02</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr><tr><td>pitch_angle_deg</td><td>12.54 deg</td><td>12.5422 deg</td><td>+0.00218794</td><td>0.02</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr><tr><td>total_axial_length_mm</td><td>87.82 mm</td><td>87.81 mm</td><td>-0.01</td><td>0.02</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr><tr><td>ground_plane_diameter_mm</td><td>112.59 mm</td><td>112.58 mm</td><td>-0.01</td><td>0.02</td><td style='background:#1b7f4e;color:#fff;font-weight:700'>PASS</td></tr>
+</tbody>
+</table>
+<p>Overall geometry check: <strong>PASS</strong></p>
+<p>Points: 145. Start (20.94, 0.0, 1.5). End (20.94, -1.5386462384487344e-14, 89.31).</p>
+<footer class='site-footer'><div><strong>Embedded AI Design Labs Pvt Ltd</strong></div><div>Author: Muhammad Samiullah &nbsp;·&nbsp; <a href='mailto:info@embedailabs.com'>info@embedailabs.com</a> &nbsp;·&nbsp; <a href='tel:9611748385'>9611748385</a></div><div><a href='https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd'>https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a> &nbsp;·&nbsp; <a href='https://www.embedailabs.com'>https://www.embedailabs.com</a></div><div>© 2026 Embedded AI Design Labs Pvt Ltd. All rights reserved.</div></footer>
+</body></html>

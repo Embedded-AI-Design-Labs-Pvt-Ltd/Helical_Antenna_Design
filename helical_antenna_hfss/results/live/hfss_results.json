@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "status": "NOT SIMULATED",
+    "project_name": "Helix_3035MHz",
+    "design_name": "Helix_3035MHz",
+    "setup_name": "Setup1",
+    "sweep_name": "Sweep",
+    "far_field_setup": "Infinite Sphere1",
+    "port_name": "P1",
+    "timestamp_utc": "2026-09-03T02:58:37Z",
+    "hfss_available": false,
+    "solved": false,
+    "source_document": "Helical Antenna_Modified_Parameter (1)(1).docx",
+    "company": "Embedded AI Design Labs Pvt Ltd",
+    "author": "Muhammad Samiullah"
+  },
+  "frequency_Hz": 3035000000.0,
+  "frequency_GHz": 3.035,
+  "s11_dB": null,
+  "vswr": null,
+  "gain_dB": null,
+  "realized_gain_dB": null,
+  "directivity_dBi": null,
+  "axial_ratio_dB": null,
+  "radiation_efficiency": null,
+  "beam_direction": {
+    "theta_deg": null,
+    "phi_deg": null
+  },
+  "s11_at_3035MHz_dB": null,
+  "vswr_at_3035MHz": null,
+  "min_s11_dB": null,
+  "min_s11_frequency_GHz": null,
+  "quantities": {
+    "s11_dB": {
+      "name": "S11",
+      "value": null,
+      "unit": "dB",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    },
+    "vswr": {
+      "name": "VSWR",
+      "value": null,
+      "unit": "ratio",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    },
+    "gain_dB": {
+      "name": "Gain",
+      "value": null,
+      "unit": "dB",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    },
+    "realized_gain_dB": {
+      "name": "RealizedGain",
+      "value": null,
+      "unit": "dB",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    },
+    "directivity_dBi": {
+      "name": "Directivity",
+      "value": null,
+      "unit": "dBi",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    },
+    "axial_ratio_dB": {
+      "name": "AxialRatio",
+      "value": null,
+      "unit": "dB",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    },
+    "radiation_efficiency": {
+      "name": "RadiationEfficiency",
+      "value": null,
+      "unit": "ratio",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    },
+    "peak_theta_deg": {
+      "name": "PeakTheta",
+      "value": null,
+      "unit": "deg",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    },
+    "peak_phi_deg": {
+      "name": "PeakPhi",
+      "value": null,
+      "unit": "deg",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    },
+    "resonant_frequency_GHz": {
+      "name": "ResonantFrequency",
+      "value": null,
+      "unit": "GHz",
+      "status": "NOT_AVAILABLE",
+      "provenance": "NOT_SIMULATED",
+      "notes": "Ansys HFSS has not been solved for this quantity. No theoretical substitute is reported."
+    }
+  },
+  "sweep": [],
+  "warnings": [
+    "Numerical electromagnetic results are NOT SIMULATED until Ansys HFSS actually solves this design."
+  ]
+}

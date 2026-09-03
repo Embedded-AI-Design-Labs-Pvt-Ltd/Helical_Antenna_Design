@@ -1,0 +1,109 @@
+{
+  "overall_status": "DEMO",
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Read source document parameters",
+      "ok": true
+    },
+    {
+      "phase": 2,
+      "name": "Validate / generate geometry",
+      "ok": true
+    },
+    {
+      "phase": 3,
+      "name": "Generate geometry artifacts",
+      "ok": true
+    },
+    {
+      "phase": 5,
+      "name": "Assign materials (documented)",
+      "ok": true
+    },
+    {
+      "phase": 6,
+      "name": "Create feed and port definition",
+      "ok": true
+    },
+    {
+      "phase": 7,
+      "name": "Create air region definition",
+      "ok": true
+    },
+    {
+      "phase": 8,
+      "name": "Radiation boundary definition",
+      "ok": true
+    },
+    {
+      "phase": 9,
+      "name": "Adaptive solution configuration",
+      "ok": true
+    },
+    {
+      "phase": 10,
+      "name": "Frequency sweep configuration",
+      "ok": true
+    },
+    {
+      "phase": 11,
+      "name": "Far-field setup configuration",
+      "ok": true
+    },
+    {
+      "phase": 13,
+      "name": "Extract results (S11/VSWR/gain/directivity/AR)",
+      "ok": true
+    },
+    {
+      "phase": 18,
+      "name": "Validate against requirements",
+      "ok": true
+    },
+    {
+      "phase": 19,
+      "name": "Generate plots",
+      "ok": true
+    },
+    {
+      "phase": 12.5,
+      "name": "Optimization framework (no auto-change of source)",
+      "ok": true
+    },
+    {
+      "phase": 20,
+      "name": "Generate HTML dashboard",
+      "ok": true
+    },
+    {
+      "phase": 21,
+      "name": "Generate engineering report",
+      "ok": true
+    },
+    {
+      "phase": 22,
+      "name": "Run QA tests",
+      "ok": true
+    },
+    {
+      "phase": 23,
+      "name": "Final project structure ready",
+      "ok": true
+    }
+  ],
+  "hfss": {
+    "hfss_available": false,
+    "solved": false,
+    "desktop_open": false,
+    "method": "skipped"
+  },
+  "qa": {
+    "tests_run": 30,
+    "failures": 0,
+    "errors": 0,
+    "status": "PASS"
+  },
+  "geometry_ok": true,
+  "dashboard": "E:\\Sami\\Helical_Antenna_Design\\helical_antenna_hfss\\docs\\index.html"
+}

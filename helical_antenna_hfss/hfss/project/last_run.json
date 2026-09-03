@@ -1,0 +1,9 @@
+{
+  "method": "offline",
+  "hfss_available": false,
+  "solved": false,
+  "desktop_open": false,
+  "script": "E:\\Sami\\Helical_Antenna_Design\\helical_antenna_hfss\\hfss\\project\\build_helix_hfss.py",
+  "message": "NOT SIMULATED \u2014 Ansys HFSS is not installed or not on PATH.",
+  "ironpython_script": "E:\\Sami\\Helical_Antenna_Design\\helical_antenna_hfss\\hfss\\project\\build_helix_hfss.py"
+}

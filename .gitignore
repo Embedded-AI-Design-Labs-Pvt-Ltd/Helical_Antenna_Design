@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Ansys / AEDT
+*.aedtresults/
+*.asol
+*.lock
+*.aedb/
+hfss/project/*.aedt
+hfss/project/*.aedt.lock
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log

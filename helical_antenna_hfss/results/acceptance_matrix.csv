@@ -1,0 +1,7 @@
+Parameter,Requirement,HFSS Result,Margin,PASS/FAIL,Notes
+Operating frequency,3.035 GHz (source),3.035 GHz (setup),,SOURCE,"This is the SOURCE_SPECIFICATION operating point, not an HFSS-extracted resonance."
+S11 at 3.035 GHz,<= -15.0 dB (preferred -25.0 to -15.0 dB),-19.92 dB,4.924 dB vs -15 dB,DEMO PASS,DEMONSTRATION_EXAMPLE (modified-parameter ready-made set)
+VSWR at 3.035 GHz,1.1:1 to 1.4:1,1.224:1,distance to band 0.1244,DEMO PASS,"DEMONSTRATION_EXAMPLE (modified-parameter ready-made set). Target is a band, not a single number."
+Directivity,10.0 to 14.5 dBi,13.74 dBi,3.74 dB above min,DEMO PASS,"DEMONSTRATION_EXAMPLE (modified-parameter ready-made set). Compare main-beam directivity, not an arbitrary cut."
+Gain,9.5 to 14.0 dB,13.28 dB,3.782 dB above min,DEMO PASS,DEMONSTRATION_EXAMPLE (modified-parameter ready-made set)
+Axial ratio (main beam),< 1.5 dB,1.339 dB,0.161 dB below 1.5 dB,DEMO PASS,"DEMONSTRATION_EXAMPLE (modified-parameter ready-made set). Main-beam direction (θ=0°, φ=0°)."

@@ -1,0 +1,2 @@
+label,helix_radius_mm,pitch_mm,wire_diameter_mm,ground_radius_mm,feed_gap_mm,feed_position_mm,s11_dB,vswr,gain_dB,directivity_dBi,axial_ratio_dB,status,provenance
+SOURCE_NOMINAL_DESIGN,20.94,29.27,1.024,56.29,1.5,20.94,,,,,,NOT SIMULATED,SOURCE_SPECIFICATION for geometry; ENGINEERING_ASSUMPTION for feed_gap; electromagnetic columns NOT_SIMULATED

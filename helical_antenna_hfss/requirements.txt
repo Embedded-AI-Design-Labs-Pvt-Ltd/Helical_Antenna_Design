@@ -1,0 +1,5 @@
+numpy>=1.24
+matplotlib>=3.7
+# Optional — required only when Ansys Electronics Desktop is installed:
+# pyaedt>=0.9
+# ansys-aedt-core>=0.9

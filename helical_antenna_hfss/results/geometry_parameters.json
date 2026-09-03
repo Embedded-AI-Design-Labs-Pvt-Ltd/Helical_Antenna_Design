@@ -1,0 +1,200 @@
+{
+  "source_document": "Helical Antenna_Modified_Parameter (1)(1).docx",
+  "source_parameters": {
+    "operating_frequency_GHz": 3.035,
+    "number_of_turns": 3.0,
+    "helix_centerline_radius_mm": 20.94,
+    "pitch_mm": 29.27,
+    "wire_awg": 18,
+    "wire_diameter_mm": 1.024,
+    "wire_radius_mm": 0.512,
+    "ground_plane_radius_mm": 56.29,
+    "ground_plane_diameter_mm": 112.59,
+    "total_axial_length_mm": 87.82,
+    "circumference_per_turn_mm": 131.58,
+    "slant_length_per_turn_mm": 134.79,
+    "pitch_angle_deg": 12.54,
+    "provenance": "SOURCE_SPECIFICATION"
+  },
+  "engineering_assumptions_used_for_geometry": {
+    "feed_gap_mm": 1.5,
+    "ground_thickness_mm": 1.0,
+    "winding": "right_hand",
+    "helix_segments_per_turn": 48,
+    "wire_cross_section": "circle",
+    "wire_diameter_mm": 1.024,
+    "provenance": "ENGINEERING_ASSUMPTION except wire diameter which is SOURCE_SPECIFICATION"
+  },
+  "calculated": {
+    "provenance": "CALCULATED",
+    "helix_diameter_mm": 41.88,
+    "circumference_per_turn_mm": 131.56990033234055,
+    "slant_length_per_turn_mm": 134.78639238981813,
+    "pitch_angle_deg": 12.542187937877722,
+    "total_axial_length_mm": 87.81,
+    "ground_plane_diameter_mm": 112.58,
+    "wire_radius_mm": 0.512,
+    "wavelength_mm": 98.77840461285008,
+    "wavelength_m": 0.09877840461285008,
+    "circumference_over_wavelength": 1.3319702909559306,
+    "pitch_over_wavelength": 0.2963198293667548,
+    "axial_length_over_wavelength": 0.8889594881002644,
+    "ground_radius_over_wavelength": 0.5698614005826658,
+    "feed_gap_mm": 1.5,
+    "ground_thickness_mm": 1.0,
+    "airbox_padding_mm": 49.38920230642504,
+    "notes": {
+      "axial_length": "N * pitch = 3 * 29.27 = 87.81 mm. Source lists 87.82 mm. Difference is 0.01 mm (rounding). Source pitch is not changed.",
+      "axial_mode": "C/\u03bb \u2248 1.33 and \u03b1 \u2248 12.54\u00b0 are consistent with axial-mode helical operation (Kraus: C/\u03bb ~ 0.75\u20131.33, \u03b1 ~ 12\u201314\u00b0). This is a calculated indicator, not an HFSS result."
+    }
+  },
+  "verification": {
+    "n_points": 145,
+    "start_mm": [
+      20.94,
+      0.0,
+      1.5
+    ],
+    "end_mm": [
+      20.94,
+      -1.5386462384487344e-14,
+      89.31
+    ],
+    "axial_length_generated_mm": 87.81,
+    "radius_min_mm": 20.939999999999998,
+    "radius_max_mm": 20.940000000000005,
+    "helix_equation": {
+      "x": "R * cos(s * 2\u03c0 t)",
+      "y": "R * sin(s * 2\u03c0 t)",
+      "z": "z0 + P * t",
+      "t_range": "[0, N]",
+      "R_mm": 20.94,
+      "P_mm": 29.27,
+      "N": 3.0,
+      "z0_mm": 1.5,
+      "s": "+1 right_hand / -1 left_hand",
+      "z0_provenance": "ENGINEERING_ASSUMPTION (feed gap; not in source document)"
+    },
+    "checks": [
+      {
+        "parameter": "helix_centerline_radius_mm",
+        "source": 20.94,
+        "generated": 20.94,
+        "error": 0.0,
+        "tolerance": 0.02,
+        "unit": "mm",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      },
+      {
+        "parameter": "pitch_mm",
+        "source": 29.27,
+        "generated": 29.27,
+        "error": 0.0,
+        "tolerance": 0.02,
+        "unit": "mm",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      },
+      {
+        "parameter": "number_of_turns",
+        "source": 3.0,
+        "generated": 3.0,
+        "error": 0.0,
+        "tolerance": 0.0,
+        "unit": "turns",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      },
+      {
+        "parameter": "wire_diameter_mm",
+        "source": 1.024,
+        "generated": 1.024,
+        "error": 0.0,
+        "tolerance": 0.0,
+        "unit": "mm",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      },
+      {
+        "parameter": "ground_plane_radius_mm",
+        "source": 56.29,
+        "generated": 56.29,
+        "error": 0.0,
+        "tolerance": 0.0,
+        "unit": "mm",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      },
+      {
+        "parameter": "circumference_per_turn_mm",
+        "source": 131.58,
+        "generated": 131.56990033234055,
+        "error": -0.010099667659460465,
+        "tolerance": 0.02,
+        "unit": "mm",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      },
+      {
+        "parameter": "slant_length_per_turn_mm",
+        "source": 134.79,
+        "generated": 134.78639238981813,
+        "error": -0.0036076101818593997,
+        "tolerance": 0.02,
+        "unit": "mm",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      },
+      {
+        "parameter": "pitch_angle_deg",
+        "source": 12.54,
+        "generated": 12.542187937877722,
+        "error": 0.0021879378777232006,
+        "tolerance": 0.02,
+        "unit": "deg",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      },
+      {
+        "parameter": "total_axial_length_mm",
+        "source": 87.82,
+        "generated": 87.81,
+        "error": -0.009999999999990905,
+        "tolerance": 0.02,
+        "unit": "mm",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      },
+      {
+        "parameter": "ground_plane_diameter_mm",
+        "source": 112.59,
+        "generated": 112.58,
+        "error": -0.010000000000005116,
+        "tolerance": 0.02,
+        "unit": "mm",
+        "pass": true,
+        "provenance_source": "SOURCE_SPECIFICATION",
+        "provenance_generated": "CALCULATED"
+      }
+    ],
+    "all_pass": true,
+    "axial_length_note": "N * pitch = 3 * 29.27 = 87.81 mm. Source lists 87.82 mm. Difference is 0.01 mm (rounding). Source pitch is not changed."
+  },
+  "hfss_objects": {
+    "HelixWire": "circular cross-section swept along parametric helix centerline",
+    "GroundPlane": "cylinder, radius 56.29 mm, thickness assumed 1.00 mm",
+    "FeedPost": "optional vertical cylinder in the feed gap, radius = wire radius",
+    "PortSheet": "rectangle in the feed gap for the 50 ohm lumped port",
+    "RadBox": "vacuum radiation region"
+  }
+}

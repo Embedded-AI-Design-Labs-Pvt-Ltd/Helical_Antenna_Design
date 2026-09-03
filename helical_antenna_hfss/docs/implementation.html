@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Implementation</title>
+<link rel="stylesheet" href="css/style.css">
+
+</head><body>
+<header>
+  <h1>3.035 GHz Helical Antenna HFSS Automation</h1>
+  <div class="sub">Embedded AI Design Labs Pvt Ltd · Author: Muhammad Samiullah · info@embedailabs.com · 9611748385 · <a href="https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd">https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a></div>
+</header>
+<nav><a class="" href="index.html">Dashboard</a><a class="" href="design.html">Design</a><a class="active" href="implementation.html">Implementation</a><a class="" href="architecture.html">Architecture</a><a class="" href="geometry.html">Geometry</a><a class="" href="simulation.html">Simulation</a><a class="" href="s11.html">S11</a><a class="" href="vswr.html">VSWR</a><a class="" href="gain.html">Gain</a><a class="" href="directivity.html">Directivity</a><a class="" href="axial_ratio.html">Axial Ratio</a><a class="" href="far_field.html">Radiation</a><a class="" href="feed_and_port.html">Feed/Port</a><a class="" href="HFSS_GUI_STEP_BY_STEP.html">HFSS GUI</a><a class="" href="validation.html">Validation</a></nav>
+<main>
+
+<h2>Implementation Procedure — Detailed Explanation</h2>
+<p class="note">This page is the operator and developer procedure: how the software is built, how a run proceeds,
+and how demonstration data is kept separate from live Ansys results.</p>
+
+<div class="toc card">
+<strong>On this page:</strong>
+<a href="#quick">Quick start</a>
+<a href="#gui">GUI procedure</a>
+<a href="#phases">Workflow phases</a>
+<a href="#modules">Module map</a>
+<a href="#stores">Result stores</a>
+<a href="#hfss">HFSS build path</a>
+<a href="#validate">Validation</a>
+<a href="#html">HTML generation</a>
+<a href="#tests">Tests</a>
+</div>
+
+<h3 id="quick">1. Quick start</h3>
+<ol class="steps">
+<li>Install Python 3.10+ with <code>numpy</code> and <code>matplotlib</code>. Tkinter is part of the standard Windows build.</li>
+<li>Optional: install Ansys Electronics Desktop (AEDT) with HFSS, and optionally <code>pyaedt</code>.</li>
+<li>Double-click <code>RUN.bat</code> at the repository root or inside <code>helical_antenna_hfss/</code>.</li>
+<li>The GUI opens with locked source parameters, a 3D helix preview, and two primary actions.</li>
+<li>Open this HTML set from <code>helical_antenna_hfss/docs/index.html</code> after a run, or click <strong>Dashboard</strong>.</li>
+</ol>
+
+<h3 id="gui">2. GUI procedure (operator control flow)</h3>
+<table>
+<thead><tr><th>Control</th><th>What it does</th><th>What it must not do</th></tr></thead>
+<tbody>
+<tr><td><strong>DEMONSTRATE — EXISTING DATA</strong></td>
+<td>Runs <code>workflow.run_all(mode="demo")</code>. Loads the ready-made modified-antenna dataset, publishes
+<code>results/demo/</code>, regenerates plots and HTML, sets the active view to demo.</td>
+<td>Does not overwrite <code>results/live/</code>. Does not launch Ansys. Does not claim PASS as a live HFSS solve.</td></tr>
+<tr><td><strong>TEST IN HFSS — LIVE ANSYS</strong></td>
+<td>Runs <code>workflow.run_all(mode="live")</code>. Builds geometry and the IronPython script. If AEDT is installed,
+opens the model. Optional “Solve in HFSS” runs Setup1. Extraction writes <code>results/live/</code>.</td>
+<td>Does not overwrite the demonstration store. If Ansys is missing or unsolved, live metrics stay NOT SIMULATED.</td></tr>
+<tr><td>Show Demo / Show Live</td>
+<td>Copies the chosen store to <code>results/hfss_results.json</code> and refreshes the comparison table.</td>
+<td>Does not mix the two JSON files.</td></tr>
+<tr><td>Dashboard / Report / HFSS script</td>
+<td>Opens generated HTML or <code>hfss/project/build_helix_hfss.py</code>.</td>
+<td>—</td></tr>
+</tbody>
+</table>
+
+<h3 id="phases">3. Automated workflow phases</h3>
+<p><code>scripts/workflow.py</code> is the integration agent. A live or demo run walks these phases (HFSS launch is skipped in demo mode):</p>
+<ol class="steps">
+<li>Read locked SOURCE constants from <code>scripts/common.py</code> (transcribed from the Word document).</li>
+<li>Generate and validate helix polyline, wire tube, ground disk, feed post and port sheet.</li>
+<li>Write geometry JSON/CSV and a 3D preview plot.</li>
+<li>Live only: open or create the AEDT project (PyAEDT if present, else <code>ansysedt -RunScript</code>).</li>
+<li>Write material assignments (copper helix/ground; vacuum box).</li>
+<li>Write lumped-port definition P1 (50 Ω, integration line along the feed gap).</li>
+<li>Write radiation-box size (0.5 λ<sub>0</sub> padding) and radiation boundary Rad1.</li>
+<li>Write Setup1 (3.035 GHz adaptive), interpolating sweep, Infinite Sphere1.</li>
+<li>Write IronPython <code>hfss/project/build_helix_hfss.py</code> so the same model can be built from Tools → Run Script.</li>
+<li>Demo: load <code>examples/ready_made/</code>. Live: extract from a solved project, or write NOT SIMULATED.</li>
+<li>Publish to the correct store; copy the active payload to <code>results/hfss_results.json</code>.</li>
+<li>Validate against TARGETS (PASS only for real HFSS; demo rows are DEMO / DEMO PASS).</li>
+<li>Generate plots (watermarked when not simulated), HTML dashboard, engineering report, optional QA.</li>
+</ol>
+
+<h3 id="modules">4. Implementation module map</h3>
+<table>
+<thead><tr><th>Module</th><th>Role in the implementation</th></tr></thead>
+<tbody>
+<tr><td><code>gui/app.py</code></td><td>Tkinter operator surface; threads <code>run_all</code> so the window stays responsive.</td></tr>
+<tr><td><code>scripts/common.py</code></td><td>Single source of truth for SOURCE, TARGETS, ASSUMPTIONS, branding, paths.</td></tr>
+<tr><td><code>scripts/geometry_generator.py</code></td><td>Centerline, solids metadata, calculated C/S/α/L, geometry validation.</td></tr>
+<tr><td><code>scripts/materials_setup.py</code></td><td>Copper / vacuum documentation JSON consumed by the HFSS script.</td></tr>
+<tr><td><code>scripts/port_setup.py</code></td><td>Lumped port sheet, impedance, integration line.</td></tr>
+<tr><td><code>scripts/radiation_setup.py</code></td><td>Air-box extents and radiation boundary name.</td></tr>
+<tr><td><code>scripts/hfss_setup.py</code></td><td>Setup1, sweep, far-field sphere, mesh/solver notes.</td></tr>
+<tr><td><code>scripts/simulation_runner.py</code></td><td>PyAEDT or ansysedt launch; always writes the IronPython builder.</td></tr>
+<tr><td><code>scripts/result_extractor.py</code></td><td>Reads a solved project when available; never invents S11/gain.</td></tr>
+<tr><td><code>scripts/demo_dataset.py</code></td><td>Loads the existing ready-made example and tags it DEMONSTRATION_EXAMPLE.</td></tr>
+<tr><td><code>scripts/results_store.py</code></td><td>Isolates <code>results/demo/</code> from <code>results/live/</code>.</td></tr>
+<tr><td><code>scripts/validation.py</code></td><td>Acceptance matrix; PASS reserved for HFSS_SIMULATED.</td></tr>
+<tr><td><code>scripts/report_generator.py</code></td><td>Writes <code>docs/*.html</code> including these design pages.</td></tr>
+<tr><td><code>hfss/project/build_helix_hfss.py</code></td><td>IronPython that AEDT executes inside the 3D modeler.</td></tr>
+</tbody>
+</table>
+
+<h3 id="stores">5. Dual-store implementation (data isolation)</h3>
+<ol class="steps">
+<li>Demonstration JSON is written only by demo mode from <code>examples/ready_made/</code>.</li>
+<li>Live JSON is written only by extraction after a live path (solved or NOT SIMULATED placeholder).</li>
+<li><code>results/active_source.json</code> records which store the dashboard currently displays.</li>
+<li><code>results/hfss_results.json</code> is a working copy of the active store for report embedding.</li>
+</ol>
+<p>This isolation is the main implementation rule: pressing Demonstrate must not destroy a previous live solve,
+and pressing Test in HFSS must not destroy the published demonstration dataset.</p>
+
+<h3 id="hfss">6. Building the model inside Ansys</h3>
+<p>Preferred automated path: PyAEDT creates project <code>Helix_3035MHz</code>, design <code>Helix_3035MHz</code>,
+units mm, then creates GroundPlane, HelixWire, FeedPost, PortSheet, RadBox, assigns materials, P1, Rad1, Setup1 and Sweep.</p>
+<p>Fallback path: <code>ansysedt -RunScript hfss/project/build_helix_hfss.py</code> (window stays open; do not use
+<code>-RunScriptAndExit</code> if the operator needs to inspect the model).</p>
+<p>Manual path: follow <a href="HFSS_GUI_STEP_BY_STEP.html">HFSS GUI step-by-step</a> — same dimensions and names.</p>
+<p>After Analyze All, export reports or re-run extraction so live JSON becomes HFSS_SIMULATED.</p>
+
+<h3 id="validate">7. Validation implementation</h3>
+<ul>
+<li>Geometry: R, P, N, wire Ø, ground radius must match SOURCE; N·P vs 87.82 mm is documented as 0.01 mm rounding.</li>
+<li>Setup: solution frequency must be exactly 3.035 GHz; sweep must contain that frequency.</li>
+<li>RF: S11, VSWR, gain, directivity, AR compared to TARGETS only when provenance is HFSS_SIMULATED.</li>
+<li>Demo comparison uses status DEMO / DEMO PASS so it cannot be mistaken for a certified Ansys run.</li>
+</ul>
+
+<h3 id="html">8. HTML documentation generation</h3>
+<p>Running the workflow (or <code>python scripts/report_generator.py</code>) writes:</p>
+<ul>
+<li><code>docs/design.html</code> — this design theory and specification</li>
+<li><code>docs/implementation.html</code> — this procedure</li>
+<li><code>docs/architecture.html</code> — system block, data-flow and control-flow diagrams</li>
+<li>Dashboard, geometry, S11/VSWR/gain pages, engineering report under <code>reports/</code></li>
+</ul>
+<p>Diagrams are rendered with Mermaid.js in the browser. If the CDN is blocked, the diagram source remains visible
+inside <code>&lt;pre class="mermaid"&gt;</code> blocks.</p>
+
+<h3 id="tests">9. Automated tests</h3>
+<p>From <code>helical_antenna_hfss/</code> run <code>python -m pytest tests -q</code>. Unit tests cover geometry formulas,
+setup JSON, and result-store isolation. They do not require Ansys.</p>
+
+</main>
+<footer class='site-footer'><div><strong>Embedded AI Design Labs Pvt Ltd</strong></div><div>Author: Muhammad Samiullah &nbsp;·&nbsp; <a href='mailto:info@embedailabs.com'>info@embedailabs.com</a> &nbsp;·&nbsp; <a href='tel:9611748385'>9611748385</a></div><div><a href='https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd'>https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a> &nbsp;·&nbsp; <a href='https://www.embedailabs.com'>https://www.embedailabs.com</a></div><div>© 2026 Embedded AI Design Labs Pvt Ltd. All rights reserved.</div><div class='footer-note'>Numerical HFSS values are shown only when extracted from a solved project. Otherwise status is NOT SIMULATED.</div></footer>
+</body></html>

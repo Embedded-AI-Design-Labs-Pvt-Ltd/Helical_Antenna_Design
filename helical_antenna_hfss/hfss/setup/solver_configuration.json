@@ -1,0 +1,51 @@
+{
+  "project_name": "Helix_3035MHz",
+  "design_name": "Helix_3035MHz",
+  "solution_type": "DrivenModal",
+  "model_units": "mm",
+  "adaptive_setup": {
+    "name": "Setup1",
+    "frequency_GHz": 3.035,
+    "frequency_provenance": "SOURCE_SPECIFICATION",
+    "maximum_passes": 15,
+    "minimum_passes": 4,
+    "minimum_converged_passes": 2,
+    "max_delta_s": 0.02,
+    "percent_refinement": 30,
+    "basis_order": 1,
+    "setup_provenance": "ENGINEERING_ASSUMPTION"
+  },
+  "frequency_sweep": {
+    "name": "Sweep",
+    "type": "Interpolating",
+    "start_GHz": 2.5,
+    "stop_GHz": 4.0,
+    "step_MHz": 10.0,
+    "save_fields": false,
+    "save_rad_fields": true,
+    "nominal_point_count": 151,
+    "operating_frequency_GHz": 3.035,
+    "operating_frequency_in_span": true,
+    "operating_frequency_on_10MHz_grid": false,
+    "note": "A 10 MHz linear grid from 2.50 GHz does not land on 3.035 GHz. The adaptive solution frequency is exactly 3.035 GHz. The interpolating sweep reports S-parameters across 2.50\u20134.00 GHz and can be sampled at 3.035 GHz. Discrete 10 MHz reporting is retained as requested."
+  },
+  "far_field": {
+    "name": "Infinite Sphere1",
+    "theta_deg": [
+      0.0,
+      180.0,
+      5.0
+    ],
+    "phi_deg": [
+      -180.0,
+      180.0,
+      10.0
+    ]
+  },
+  "mesh": {
+    "method": "HFSS adaptive lambda refinement",
+    "initial_mesh": "HFSS default at solution frequency",
+    "convergence_reported": false,
+    "convergence_note": "NOT SIMULATED \u2014 do not treat MaxDeltaS configuration as a measured residual."
+  }
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geometry</title>
+<link rel="stylesheet" href="css/style.css">
+
+</head><body>
+<header>
+  <h1>3.035 GHz Helical Antenna HFSS Automation</h1>
+  <div class="sub">Embedded AI Design Labs Pvt Ltd · Author: Muhammad Samiullah · info@embedailabs.com · 9611748385 · <a href="https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd">https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a></div>
+</header>
+<nav><a class="" href="index.html">Dashboard</a><a class="" href="design.html">Design</a><a class="" href="implementation.html">Implementation</a><a class="" href="architecture.html">Architecture</a><a class="active" href="geometry.html">Geometry</a><a class="" href="simulation.html">Simulation</a><a class="" href="s11.html">S11</a><a class="" href="vswr.html">VSWR</a><a class="" href="gain.html">Gain</a><a class="" href="directivity.html">Directivity</a><a class="" href="axial_ratio.html">Axial Ratio</a><a class="" href="far_field.html">Radiation</a><a class="" href="feed_and_port.html">Feed/Port</a><a class="" href="HFSS_GUI_STEP_BY_STEP.html">HFSS GUI</a><a class="" href="validation.html">Validation</a></nav>
+<main>
+
+<h2>Antenna Geometry</h2>
+<p>Parametric helix: <code>x = R cos(2πt)</code>, <code>y = R sin(2πt)</code>, <code>z = z0 + P t</code>, <code>t ∈ [0, N]</code>.</p>
+<p class="note">z0 = 1.5 mm is an ENGINEERING ASSUMPTION (feed gap). R, P, N, wire and ground radii are SOURCE_SPECIFICATION.</p>
+<p><img src="../results/plots/geometry_3d.png" alt="geometry"></p>
+<table>
+<tr><th>Quantity</th><th>Source</th><th>Calculated</th><th>Provenance</th></tr>
+<tr><td>Radius</td><td>20.94 mm</td><td>20.94 mm</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Circumference/turn</td><td>131.58 mm</td><td>131.5699 mm</td><td>CALCULATED vs SOURCE</td></tr>
+<tr><td>Pitch</td><td>29.27 mm</td><td>29.27 mm</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Slant/turn</td><td>134.79 mm</td><td>134.7864 mm</td><td>CALCULATED vs SOURCE</td></tr>
+<tr><td>Pitch angle</td><td>12.54°</td><td>12.5422°</td><td>CALCULATED vs SOURCE</td></tr>
+<tr><td>Axial length</td><td>87.82 mm</td><td>87.8100 mm</td><td>N·P = 87.81 mm; source 87.82 mm rounding</td></tr>
+<tr><td>Wire Ø</td><td>1.024 mm</td><td>—</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Ground radius</td><td>56.29 mm</td><td>—</td><td>SOURCE_SPECIFICATION</td></tr>
+<tr><td>Air box padding</td><td>—</td><td>49.389 mm (0.5 λ0)</td><td>ENGINEERING_ASSUMPTION</td></tr>
+</table>
+<p><a href="geometry_validation_report.html">Geometry validation report</a></p>
+
+</main>
+<footer class='site-footer'><div><strong>Embedded AI Design Labs Pvt Ltd</strong></div><div>Author: Muhammad Samiullah &nbsp;·&nbsp; <a href='mailto:info@embedailabs.com'>info@embedailabs.com</a> &nbsp;·&nbsp; <a href='tel:9611748385'>9611748385</a></div><div><a href='https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd'>https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a> &nbsp;·&nbsp; <a href='https://www.embedailabs.com'>https://www.embedailabs.com</a></div><div>© 2026 Embedded AI Design Labs Pvt Ltd. All rights reserved.</div><div class='footer-note'>Numerical HFSS values are shown only when extracted from a solved project. Otherwise status is NOT SIMULATED.</div></footer>
+</body></html>

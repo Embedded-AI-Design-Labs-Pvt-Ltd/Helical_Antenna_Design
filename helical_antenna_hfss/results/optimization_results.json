@@ -1,0 +1,57 @@
+{
+  "source_nominal_design": {
+    "label": "SOURCE_NOMINAL_DESIGN",
+    "helix_radius_mm": 20.94,
+    "pitch_mm": 29.27,
+    "wire_diameter_mm": 1.024,
+    "ground_radius_mm": 56.29,
+    "feed_gap_mm": 1.5,
+    "feed_position_mm": 20.94,
+    "s11_dB": null,
+    "vswr": null,
+    "gain_dB": null,
+    "directivity_dBi": null,
+    "axial_ratio_dB": null,
+    "status": "NOT SIMULATED",
+    "provenance": "SOURCE_SPECIFICATION for geometry; ENGINEERING_ASSUMPTION for feed_gap; electromagnetic columns NOT_SIMULATED"
+  },
+  "optimized_design": null,
+  "optimized_design_note": "No optimized design exists until HFSS parametric solves complete. The source nominal geometry is never overwritten automatically.",
+  "objective": {
+    "primary": "S11 at 3.035 GHz",
+    "secondary": "VSWR",
+    "additional": [
+      "Gain",
+      "Directivity",
+      "Axial ratio"
+    ]
+  },
+  "variables": [
+    "helix_radius",
+    "pitch",
+    "wire_diameter",
+    "ground_radius",
+    "feed_gap",
+    "feed_position"
+  ],
+  "candidates": [
+    {
+      "label": "SOURCE_NOMINAL_DESIGN",
+      "helix_radius_mm": 20.94,
+      "pitch_mm": 29.27,
+      "wire_diameter_mm": 1.024,
+      "ground_radius_mm": 56.29,
+      "feed_gap_mm": 1.5,
+      "feed_position_mm": 20.94,
+      "s11_dB": null,
+      "vswr": null,
+      "gain_dB": null,
+      "directivity_dBi": null,
+      "axial_ratio_dB": null,
+      "status": "NOT SIMULATED",
+      "provenance": "SOURCE_SPECIFICATION for geometry; ENGINEERING_ASSUMPTION for feed_gap; electromagnetic columns NOT_SIMULATED"
+    }
+  ],
+  "n_candidates": 1,
+  "n_solved": 0
+}

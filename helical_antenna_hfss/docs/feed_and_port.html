@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feed and Port</title>
+<link rel="stylesheet" href="css/style.css">
+
+</head><body>
+<header>
+  <h1>3.035 GHz Helical Antenna HFSS Automation</h1>
+  <div class="sub">Embedded AI Design Labs Pvt Ltd · Author: Muhammad Samiullah · info@embedailabs.com · 9611748385 · <a href="https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd">https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a></div>
+</header>
+<nav><a class="" href="index.html">Dashboard</a><a class="" href="design.html">Design</a><a class="" href="implementation.html">Implementation</a><a class="" href="architecture.html">Architecture</a><a class="" href="geometry.html">Geometry</a><a class="" href="simulation.html">Simulation</a><a class="" href="s11.html">S11</a><a class="" href="vswr.html">VSWR</a><a class="" href="gain.html">Gain</a><a class="" href="directivity.html">Directivity</a><a class="" href="axial_ratio.html">Axial Ratio</a><a class="" href="far_field.html">Radiation</a><a class="active" href="feed_and_port.html">Feed/Port</a><a class="" href="HFSS_GUI_STEP_BY_STEP.html">HFSS GUI</a><a class="" href="validation.html">Validation</a></nav>
+<main>
+
+<h2>Feed and Port</h2>
+<p class="note">The source document does <strong>not</strong> define coax geometry, dielectric, connector, reference impedance, port size or integration line. The 50 Ω lumped port below is an ENGINEERING ASSUMPTION.</p>
+<h3>Missing source information</h3>
+<ul>
+<li>Coax inner/outer radii and dielectric εr</li>
+<li>Connector (SMA / N / custom)</li>
+<li>Feed conductor distinct from 18 AWG helix wire</li>
+<li>Port dimensions and integration line</li>
+<li>Ground thickness and clearance hole</li>
+</ul>
+<h3>First-pass excitation</h3>
+<table>
+<tr><th>Item</th><th>Value</th><th>Provenance</th></tr>
+<tr><td>Type</td><td>Lumped port P1</td><td>ENGINEERING_ASSUMPTION</td></tr>
+<tr><td>Impedance</td><td>50.0 Ω</td><td>ENGINEERING_ASSUMPTION</td></tr>
+<tr><td>Feed gap</td><td>1.5 mm</td><td>ENGINEERING_ASSUMPTION</td></tr>
+<tr><td>Port sheet</td><td>XZ rectangle, width 1.024 mm, height 1.5 mm at x = R</td><td>ENGINEERING_ASSUMPTION</td></tr>
+<tr><td>Integration line</td><td>(R,0,0) → (R,0,gap) along +z</td><td>ENGINEERING_ASSUMPTION</td></tr>
+<tr><td>Feed post</td><td>Cylinder radius 0.512 mm, height = gap</td><td>ENGINEERING_ASSUMPTION</td></tr>
+</table>
+<h3>Replace with a coaxial feed later</h3>
+<ol>
+<li>Obtain physical connector dimensions.</li>
+<li>Delete P1 and PortSheet.</li>
+<li>Model inner conductor, dielectric and shield.</li>
+<li>Cut the ground plane for the shield.</li>
+<li>Assign a wave port or lumped port on the coax cross-section.</li>
+<li>Re-solve. Expect S11/VSWR to change more than the far-field beam shape.</li>
+</ol>
+
+</main>
+<footer class='site-footer'><div><strong>Embedded AI Design Labs Pvt Ltd</strong></div><div>Author: Muhammad Samiullah &nbsp;·&nbsp; <a href='mailto:info@embedailabs.com'>info@embedailabs.com</a> &nbsp;·&nbsp; <a href='tel:9611748385'>9611748385</a></div><div><a href='https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd'>https://github.com/Embedded-AI-Design-Labs-Pvt-Ltd</a> &nbsp;·&nbsp; <a href='https://www.embedailabs.com'>https://www.embedailabs.com</a></div><div>© 2026 Embedded AI Design Labs Pvt Ltd. All rights reserved.</div><div class='footer-note'>Numerical HFSS values are shown only when extracted from a solved project. Otherwise status is NOT SIMULATED.</div></footer>
+</body></html>
